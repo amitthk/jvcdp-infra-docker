@@ -1,0 +1,7 @@
+dosetup/dist
+dashboard/dist
+user-api/app
+user-api/logs
+dashboard-api/app
+dashboard-api/logs
+postgresql/db

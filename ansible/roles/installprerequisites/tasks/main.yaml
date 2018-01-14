@@ -1,0 +1,45 @@
+---
+- name: update apt
+  shell: apt update
+  become: true
+
+- name: install build essentials
+  shell: apt install -y build-essential python
+  become: true
+
+- name: install python pip
+  shell: apt install -y python-pip
+  become: true
+
+- name: install python apt
+  shell: apt install -y python-apt
+  become: true
+
+- name: install aws cli
+  shell: apt install -y awscli
+  become: true
+# - name: configure aws
+#   shell: aws configure
+
+# - name: Ensure python-apt is installed
+#   command: >
+#     apt-get install python-apt -y -q
+#     creates=/usr/share/doc/python-apt
+#   become: true
+
+- include: install_docker.yaml
+  when: install_docker
+
+- name: set locale for PIP
+  command: export LC_ALL=C
+  become: true
+
+- name: "install docker-py"
+  pip:
+    name: docker-py
+    state: present
+
+- name: "install boto3"
+  pip:
+    name: boto3
+    state: present

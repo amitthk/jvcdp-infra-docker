@@ -1,0 +1,14 @@
+---
+- name: run dashboard_ui container
+  docker_container:
+    name: sc_dashboard_ui
+    image: sc_dashboard_ui:0.1
+    volumes:
+#      - "{{base_dir}}app:/var/www"
+      - "{{base_dir}}logs:/var/log/nginx"
+    ports:
+      - "80 : 80"
+#      networks:
+#        - name: dodashb_network
+    state: "started"
+    restart: "yes"

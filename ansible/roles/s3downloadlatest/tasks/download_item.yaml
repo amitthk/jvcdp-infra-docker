@@ -1,0 +1,9 @@
+---
+- set_fact: project="{{item}}"
+# - name: Starts from scratch {{base_dir}}docker/{{project.project_id}}
+#   file: path={{base_dir}}docker/{{project.project_id}} state=directory
+- include: download_tar.yaml
+  when: project.artifact_type=='tar.gz'
+  
+- include: download_jar.yaml
+  when: project.artifact_type=='jar'

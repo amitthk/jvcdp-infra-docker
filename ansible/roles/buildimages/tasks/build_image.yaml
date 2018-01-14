@@ -1,0 +1,6 @@
+- set_fact: project="{{item}}"
+- name: "build {{project.project_id}} image"
+  docker_image: 
+    path: "{{base_dir}}docker/{{project.project_id}}/"
+    name: "{{project.image_name}}"
+    tag: "{{project.tag}}"

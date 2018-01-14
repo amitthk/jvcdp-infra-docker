@@ -1,0 +1,7 @@
+- name: "list the latest {{project.project_id}} {{project.artifact_type}} from s3 bucket"
+  shell: "aws s3 ls --recursive s3://{{s3_bucket_name}}/{{project.project_id}} | grep '.*\\.jar$' | sort | tail -n 1 | awk -F \" \" '{print $4}'"
+  register: resp
+- debug: var=resp
+
+- name: "download the latest to temp directory here"
+  shell: "aws s3 cp s3://{{s3_bucket_name}}/{{resp.stdout}} {{base_dir}}docker/{{project.project_id}}/app/"

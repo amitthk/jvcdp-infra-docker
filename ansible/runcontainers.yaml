@@ -1,0 +1,27 @@
+---
+- hosts: datacenter_host
+  gather_facts: true
+  become: false
+  vars:
+    base_dir: "~/app/"
+
+- hosts: postgresql_db
+  roles:
+    - name: runcontainers
+      container_name: postgresql_db
+- hosts: setup_api
+  roles:
+    - name: runcontainers
+      container_name: setup_api
+- hosts: user_api
+  roles:
+    - name: runcontainers
+      container_name: user_api
+- hosts: dashboard_api
+  roles:
+    - name: runcontainers
+      container_name: dashboard_api
+- hosts: dashboard_ui
+  roles:
+    - name: runcontainers
+      container_name: dashboard_ui

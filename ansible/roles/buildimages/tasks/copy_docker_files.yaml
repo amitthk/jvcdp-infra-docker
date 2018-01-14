@@ -1,0 +1,15 @@
+---
+- include: copy_selective.yaml
+  with_items:
+   - 'Dockerfile'
+   - 'nginx.conf'
+   - 'config/application-prod.properties'
+  loop_control:
+    loop_var: file_name
+
+- name: copy nginx template
+  template:
+    src: "{{playbook_path.stdout}}/docker/{{project.project_id}}/nginx.conf.j2"
+    dest: "{{base_dir}}docker/{{project.project_id}}/nginx.conf"
+    force: yes
+  when: project.project_id == 'jvcdp'

@@ -1,0 +1,31 @@
+- name: Check if docker is already installed
+  command: dpkg-query -l docker
+  register: docker_check
+  ignore_errors: true
+
+- include: docker-debian.yaml
+  when: ((ansible_os_family == 'Debian')and(docker_check.stdout.find('no packages found') != -1))
+
+- name: apt-get update
+  command: apt update
+  become: true
+
+- name: Install Docker now.
+  package: name={{ docker_package }} state={{ docker_package_state }}
+  become: true
+
+- name: Ensure Docker is started and enabled at boot.
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Check if docker-compose is already installed
+  command: dpkg-query -l docker-compose
+  register: docker_compose_check
+  ignore_errors: true
+
+- name: install docker compose
+  command: apt-get install -y docker-compose
+  when: ((ansible_os_family == 'Debian')and(docker_compose_check.stdout.find('no packages found') != -1))
+  become: true

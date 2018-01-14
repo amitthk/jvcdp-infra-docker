@@ -1,0 +1,15 @@
+- set_fact: project="{{item}}"
+- debug: var=project
+- name: "clean up the old artifact :  {{base_dir}}docker/{{project.project_id}}/app/{{project.project_id}}.{{project.artifact_type}}"
+  shell: "rm -f {{base_dir}}docker/{{project.project_id}}/app/{{project.project_id}}.{{project.artifact_type}}"
+
+- name: "rename the latest artifact to {{base_dir}}docker/{{project.project_id}}/app/{{project.project_id}}.{{project.artifact_type}}"
+  shell: "mv {{base_dir}}docker/{{project.project_id}}/app/{{project.project_id}}*.{{project.artifact_type}}  {{base_dir}}docker/{{project.project_id}}/app/{{project.project_id}}.{{project.artifact_type}}"
+  register: result
+  when: project.artifact_type != 'tar.gz'
+- debug: var=result
+
+- name: "set permissions for {{base_dir}}docker/{{project.project_id}}/app/{{project.project_id}}.{{project.artifact_type}}"
+  command: "chmod -R 0777 {{base_dir}}docker/{{project.project_id}}/app"
+  register: result
+- debug: var=result

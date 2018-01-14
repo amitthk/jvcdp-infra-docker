@@ -1,0 +1,16 @@
+---
+- name: start dashboard-api container
+  docker_container:
+    name: sc_dashboard_api
+    image: sc_dashboard_api:0.1
+    volumes:
+      - "{{base_dir}}dashboard-api/logs:/opt/logs"
+#      - "{{base_dir}}dashboard-api/app:/opt/target"
+    ports:
+      - "8090:8090"
+#      links:
+#        - postgresql_db
+#      networks:
+#        - name: dodashb_network
+    state: "started"
+    restart: "yes"

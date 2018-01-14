@@ -1,0 +1,17 @@
+- name: Find out playbooks path
+  local_action: shell pwd
+  register: playbook_path
+- debug: var=playbook_path.stdout
+- name: check if local file exist
+  local_action: stat path="{{playbook_path.stdout}}/docker/{{project.project_id}}/{{file_name}}"
+  register: filestats
+  ignore_errors: True
+- debug: var=filestats
+- name: Ensures {{base_dir}}docker/{{project.project_id}}/config dir exists
+  file: path={{base_dir}}docker/{{project.project_id}}/config state=directory
+- name: copy if the file exists 
+  copy:
+    src: "{{playbook_path.stdout}}/docker/{{project.project_id}}/{{file_name}}"
+    dest: "{{base_dir}}docker/{{project.project_id}}/{{file_name}}"
+    force: yes
+  when: filestats.stat.exists

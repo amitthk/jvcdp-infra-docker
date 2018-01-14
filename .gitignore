@@ -1,0 +1,5 @@
+.project
+ansible/docker/jvcdp/app
+ansible/docker/user-api/app
+ansible/docker/dasboard-api/app
+ansible/docker/setup-api/app

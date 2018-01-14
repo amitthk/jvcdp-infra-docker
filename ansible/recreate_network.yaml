@@ -1,0 +1,32 @@
+---
+- hosts: datacenter_host
+  gather_facts: true
+  become: false
+  vars:
+    base_dir: "~/app/"
+  tasks:
+    - name: "Delete dodashb_network network, disconnecting all containers"
+      docker_network:
+        name: dodashb_network
+        state: absent
+        force: yes
+
+    - name: "Create dodashb_network network with options"
+      docker_network:
+        name: dodashb_network
+        driver_options:
+          com.docker.network.bridge.name: net2
+        ipam_options:
+          subnet: '172.20.0.0/16'
+          gateway: 172.20.0.1
+          iprange: '172.20.0.0/10'
+
+    - name: "Attach the following containers"
+      docker_network:
+        name: dodashb_network
+        connected:
+          - sc_postgresql_db
+          - sc_setup_api
+          - sc_dashboard_ui
+          - sc_dashboard_api
+          - sc_user_api

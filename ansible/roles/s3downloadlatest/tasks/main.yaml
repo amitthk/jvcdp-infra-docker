@@ -1,0 +1,7 @@
+---
+- name: "download all latest"
+  debug:
+    msg: download latest all
+- include: download_item.yaml
+  with_items: "{{projects}}"
+

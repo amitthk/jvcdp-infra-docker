@@ -1,0 +1,48 @@
+dashboard_ui:
+    build: ./nginx/
+    volumes:
+        - ./dashboard/dist:/var/www
+    ports:
+        - 80:80
+
+dashboard-api:
+    build: ./dashboard-api/
+    volumes:
+        - ./dashboard-api/logs:/opt/logs
+        - ./dashboard-api/app:/opt/target
+    ports:
+        - 8090:8090
+    links:
+        - postgresql_db
+        - user_api
+    networks:
+        - dodashb_network
+
+user_api:
+    build: ./user-api/
+    volumes:
+        - ./user-api/logs:/opt/logs
+        - ./user-api/app:/opt/target
+    ports:
+        - 8091:8091
+    links:
+        - postgresql_db
+
+user_ui:
+    build: ./nginx/
+    volumes:
+        - ./dosetup/dist:/var/www
+    ports:
+        - 8093:80
+
+postresql_db:
+    build: ./postgresql/
+    volumes:
+        - ./postgresql/db:/var/lib/postgresql/data
+    ports:
+        - 5432:5432
+    environment:
+        - DEBUG=false
+        - POSTGRES_USER=sa
+        - POSTGRES_PASS=passw0rd
+        - POSTGRES_DB=jvcdp

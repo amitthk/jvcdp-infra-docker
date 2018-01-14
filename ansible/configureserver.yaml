@@ -1,0 +1,9 @@
+- hosts: datacenter_host
+  gather_facts: true
+  become: false
+  vars:
+    root_base_dir: "~/app/"
+    install_prereq: false
+    should_install_docker: true
+  roles:
+    - { role: installprerequisites, install_docker: "{{should_install_docker}}", when: install_prereq }

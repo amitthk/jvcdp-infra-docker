@@ -1,0 +1,14 @@
+---
+- name: start setup-api container
+  docker_container:
+    name: sc_setup_api
+    image: sc_setup_api:0.1
+    volumes:
+      - "{{base_dir}}setup-api/logs:/opt/logs"
+#      - "{{base_dir}}setup-api/app:/opt/target"
+#    links:
+#      - postgresql_db
+#      networks:
+#        - name: dodashb_network
+    state: "started"
+    restart: "yes"

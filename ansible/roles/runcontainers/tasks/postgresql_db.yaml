@@ -1,0 +1,22 @@
+---
+- name: Find out playbooks path
+  shell: pwd
+  register: playbook_path
+- debug: var=playbook_path.stdout
+- name: start postresql_db container
+  docker_container:
+    name: sc_postgresql_db
+    image: sc_postgresql_db:0.1
+    volumes:
+      - "{{base_dir}}postgresql_db/db:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    env:
+      DEBUG: "false"
+      POSTGRES_USER: "sa"
+      POSTGRES_PASS: "passw0rd"
+      POSTGRES_DB: "jvcdp"
+    state: "started"
+    restart: "yes"
+#      networks:
+#        - name: dodashb_network

@@ -1,0 +1,7 @@
+    - name: "list all jars in s3 bucket"
+      shell: "aws s3 ls --recursive s3://{{s3_bucket_name}}/{{project_id}} | grep '.*\\.jar$' | awk -F \" \" '{print $4}'"
+      register: resp
+#    - name: "show response"
+    - debug: var=resp
+#   - name: "download by matching passed timestamp key"
+#      shell: ""

@@ -1,0 +1,14 @@
+---
+base_dir: "~/app/"
+s3_bucket_name: jvcdp-repo
+project_ids: 
+  - user-api
+  - setup-api
+  - dashboard-api
+  - jvcdp
+projects: 
+  - { project_id: 'user-api', image_name: 'sc_user_api', artifact_type: 'jar' }
+  - { project_id: 'dashboard-api', image_name: 'sc_dashboard_api', artifact_type: 'jar' }
+  - { project_id: 'jvcdp', image_name: 'sc_dashboard_ui', artifact_type: 'tar.gz' }
+  - { project_id: 'postgresq_db', image_name: 'sc_postgresql_db', artifact_type: 'sql' }
+  - { project_id: 'setup-api', image_name: 'sc_setup_api', artifact_type: 'jar' }

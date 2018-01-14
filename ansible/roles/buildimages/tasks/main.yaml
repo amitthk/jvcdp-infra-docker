@@ -1,0 +1,24 @@
+---
+- include: copy_docker_files.yaml
+  with_items: "{{projects}}"
+  loop_control:
+    loop_var: project
+
+- include: cleanup_dest.yaml
+  with_items: "{{projects}}"
+  when: item.artifact_type !='sql'
+
+- name: "rename {{base_dir}}docker/jvcdp/app/jvcdp.tar.gz and set permissions"
+  shell: "cd {{base_dir}}docker/jvcdp/app && mv jvcdp*.tar.gz jvcdp.tar.gz && chmod 0755 jvcdp.tar.gz"
+  register: resp
+- debug:
+    var: resp
+
+- name: "untar the {{base_dir}}docker/jvcdp/app/jvcdp.tar.gz"
+  shell: "cd {{base_dir}}docker/jvcdp/app && tar -xpzvf jvcdp.tar.gz && rm -rf jvcdp*.tar.gz"
+  register: resp2
+- debug:
+    var: resp2
+
+- include: build_image.yaml
+  with_items: "{{projects}}"

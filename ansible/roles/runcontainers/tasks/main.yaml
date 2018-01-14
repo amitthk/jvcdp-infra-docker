@@ -1,0 +1,11 @@
+---
+- include: postgresql_db.yaml
+  when: container_name=='postgresql_db'
+- include: user_api.yaml
+  when: container_name=='user_api'
+- include: dashboard_api.yaml
+  when: container_name=='dashboard_api'
+- include: dashboard_ui.yaml
+  when: container_name=='dashboard_ui'
+- include: setup_api.yaml
+  when: container_name=='setup_api'

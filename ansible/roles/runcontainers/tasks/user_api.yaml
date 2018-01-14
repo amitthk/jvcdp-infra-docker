@@ -1,0 +1,16 @@
+---
+- name: start user-api container
+  docker_container:
+    name: sc_user_api
+    image: sc_user_api:0.1
+    volumes:
+      - "{{base_dir}}user-api/logs:/opt/logs"
+#      - "{{base_dir}}user-api/app:/opt/target"
+    ports:
+      - "8091:8091"
+#      links:
+#        - postgresql_db
+#      networks:
+#        - name: dodashb_network
+    state: "started"
+    restart: "yes"

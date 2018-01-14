@@ -1,0 +1,4 @@
+---
+base_dir: '~/app/'
+install_docker: false
+sit_base_url: 127.0.0.1

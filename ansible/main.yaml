@@ -1,0 +1,39 @@
+---
+- hosts: datacenter_host
+  gather_facts: true
+  become: false
+  vars:
+    root_base_dir: "~/app/"
+    install_prereq: false
+  roles:
+    - { role: installprerequisites, install_docker: true, when: install_prereq }
+    - name: s3downloadlatest
+      base_dir: "{{root_base_dir}}"
+    - name: buildimages
+      base_dir: "{{root_base_dir}}"
+
+- hosts: postgresql_db
+  roles:
+    - name: runcontainers
+      container_name: postgresql_db
+      base_dir: "{{root_base_dir}}"
+- hosts: setup_api
+  roles:
+    - name: runcontainers
+      container_name: setup_api
+      base_dir: "{{root_base_dir}}"
+- hosts: user_api
+  roles:
+    - name: runcontainers
+      container_name: user_api
+      base_dir: "{{root_base_dir}}"
+- hosts: dashboard_api
+  roles:
+    - name: runcontainers
+      container_name: dashboard_api
+      base_dir: "{{root_base_dir}}"
+- hosts: dashboard_ui
+  roles:
+    - name: runcontainers
+      container_name: dashboard_ui
+      base_dir: "{{root_base_dir}}"
